@@ -1,0 +1,16 @@
+---
+# tasks for node
+
+- name: Install Node.js
+  yum:
+    name: nodejs
+    state: present
+
+- name: print node version
+  debug:
+    msg: "The current version of node is {{node_version}}"
+
+- name: Install the Express.js npm package
+  npm:
+    name: express
+    state: present

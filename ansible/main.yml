@@ -1,0 +1,33 @@
+- name: configurations
+  host: all
+  user: ubuntu
+  become: true
+  become_method: sudo
+  become_user: root
+  gather_facts: no
+  vars_files:
+    - vault/main.yml
+
+  pre_tasks:
+    - name: wait 600 seconds for target connection to become reachable/usable
+      wait_for_connettion:
+
+    - name: check if python is available
+      stat:
+        path: /usr/bin/python3
+      register: python3_present
+
+    - name: update apt cache
+      apt:
+        update_cache: yes
+        cahe_valid_time: 300
+
+  roles:
+    - docker
+    - node
+    - go
+    - kind
+    - helm
+    - terraform
+    - build
+    - deploy

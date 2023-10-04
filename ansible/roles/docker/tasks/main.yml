@@ -1,0 +1,20 @@
+# ---
+# # task for docker
+
+- name: "Build - Package Installation"
+  yum:
+    name:
+      - docker
+      - python2-pip
+    state: present
+
+- name: "Build - Sarting Docker Service"
+  service:
+    name: docker
+    state: restarted
+    enabled: true
+        
+- name: "Build - Installing Docker Client For Python"
+  pip:
+    name: docker-py
+    state: present

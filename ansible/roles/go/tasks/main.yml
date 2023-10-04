@@ -1,0 +1,10 @@
+---
+# tasks for go
+
+- name: Install Go
+  golang:
+    state: present
+
+- name: print go version
+  debug:
+    msg: "The current version of go is {{go_version}}"

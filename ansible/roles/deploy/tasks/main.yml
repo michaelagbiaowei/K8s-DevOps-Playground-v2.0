@@ -1,0 +1,93 @@
+---
+# tasks for deploy
+
+- name: Create a tar.gz archive for the manifest files on the local machine
+  archive:
+    path: "{{local_path}}/k8s"
+    dest: "{{local_path}}/k8s.tar.gz"
+    format: gz
+    force_archive:
+  delegate_to: localhost
+
+- name: Ensure the destination directory exists on the remote machine
+  file:
+    path: "{{remote_path}}/k8s"
+    state: directory
+
+- name: unarchived files on remote machine
+  unarchive:
+    src: "{{local_path}}/k8s.tar.gz"
+    dest: "{{remote_path}}/k8s"
+    remote_src: yes
+
+- name: Create a tar.gz archive for the terraform files on the local machine
+  archive:
+    path: "{{local_path}}/terraform/app"
+    dest: "{{local_path}}/terraform/app.tar.gz"
+    format: gz
+    force_archive:
+  delegate_to: localhost
+
+- name: Ensure the destination directory exists on the remote machine -- tarraform
+  file:
+    path: "{{remote_path}}/terraform"
+    state: directory
+
+- name: Ensure the destination directory exists on the remote machine -- tarraform/app
+  file:
+    path: "{{remote_path}}/terraform/app"
+    state: directory
+
+- name: unarchived files on remote machine
+  unarchive:
+    src: "{{local_path}}/terraform/app.tar.gz"
+    dest: "{{remote_path}}/terraform/app"
+    remote_src: yes
+
+- name: Initialize Terraform
+  command: terraform init
+  args:
+    chdir: "{{remote_path}}/terraform/app"
+  ignore_errors: true
+  register: terraform_init
+
+- name: Generate Terraform Plan
+  command: terraform plan -out=tfplan
+  args:
+    chdir: "{{remote_path}}/terraform/app"
+  ignore_errors: true
+  register: terraform_plan
+
+- name: Deploy Terraform Infrastructure
+  command: terraform apply -auto-approve tfplan
+  args:
+    chdir: "{{remote_path}}/terraform/app"
+  ignore_errors: true
+  register: terraform_apply
+
+- name: Handle Failure
+  block:
+    - name: Fail if Terraform Deployment Fails
+      fail:
+        msg: "Terraform deployment failed. Check logs for details."
+      when: terraform_apply.rc != 0
+
+    - name: Destroy Terraform Infrastructure on Failure
+      command: terraform destroy -auto-approve
+      args:
+        chdir: "{{remote_path}}/terraform/app"
+      ignore_errors: true
+      when: terraform_apply.rc != 0
+
+  rescue:
+    - name: Cleanup on Success or Failure
+      command: terraform destroy -auto-approve
+      args:
+        chdir: "{{remote_path}}/terraform/app"
+      ignore_errors: true
+      
+  always:
+    - name: Remove Terraform State Lock Files
+      file:
+        path: "{{remote_path}}/terraform/app/.terraform.lock.info"
+        state: absent
