@@ -23,8 +23,8 @@
         cache_valid_time: 300
 
   roles:
-    - docker
-      #- node
+    # - docker
+    - node
       # - go
       # - kind
       # - helm

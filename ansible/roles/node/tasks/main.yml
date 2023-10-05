@@ -6,9 +6,9 @@
     name: nodejs
     state: present
 
-- name: print node version
-  debug:
-    msg: "The current version of node is {{node_version}}"
+# - name: print node version
+#   debug:
+#     msg: "The current version of node is {{node_version}}"
 
 - name: Install the Express.js npm package
   npm:

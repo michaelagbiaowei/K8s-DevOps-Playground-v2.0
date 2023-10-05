@@ -24,20 +24,3 @@
     state: present
   tags:
     - install_docker_client
-# - name: "Build - Package Installation"
-#   apt:
-#     name:
-#       - docker
-#       - python3-pip
-#     state: present
-
-# - name: "Build - Sarting Docker Service"
-#   service:
-#     name: docker
-#     state: restarted
-#     enabled: true
-        
-# - name: "Build - Installing Docker Client For Python"
-#   pip:
-#     name: docker-py
-#     state: present
