@@ -4,17 +4,40 @@
 - name: "Build - Package Installation"
   apt:
     name:
-      - docker
+      - docker.io
       - python3-pip
     state: present
+  tags:
+    - install_packages
 
-- name: "Build - Sarting Docker Service"
-  service:
+- name:  "Build - Starting Docker Service"
+  systemd:
     name: docker
-    state: restarted
-    enabled: true
-        
+    state: started
+    enabled: yes
+  tags:
+    - start_docker_service
+
 - name: "Build - Installing Docker Client For Python"
   pip:
-    name: docker-py
+    name: docker
     state: present
+  tags:
+    - install_docker_client
+# - name: "Build - Package Installation"
+#   apt:
+#     name:
+#       - docker
+#       - python3-pip
+#     state: present
+
+# - name: "Build - Sarting Docker Service"
+#   service:
+#     name: docker
+#     state: restarted
+#     enabled: true
+        
+# - name: "Build - Installing Docker Client For Python"
+#   pip:
+#     name: docker-py
+#     state: present
