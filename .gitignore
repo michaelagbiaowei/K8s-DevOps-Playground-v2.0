@@ -134,4 +134,4 @@ terraform.tfstate
 .terraform
 get_helm.sh
 terraform.tfstate.backup
-ansible/*.pem
+*.pem
