@@ -1,16 +1,16 @@
 - name: configurations
-  host: all
+  hosts: all
   user: ubuntu
   become: true
   become_method: sudo
   become_user: root
   gather_facts: no
-  vars_files:
-    - vault/main.yml
+    #vars_files:
+    #- vault/main.yml
 
   pre_tasks:
     - name: wait 600 seconds for target connection to become reachable/usable
-      wait_for_connettion:
+      ansible.builtin.wait_for_connettion:
 
     - name: check if python is available
       stat:
@@ -24,11 +24,11 @@
 
   roles:
     - docker
-    - node
-    - go
-    - kind
-    - helm
-    - terraform
-    - build
-    - deploy
-    - monitoring
+      #- node
+      # - go
+      # - kind
+      # - helm
+      #- terraform
+      #- build
+      #- deploy
+      #- monitoring
