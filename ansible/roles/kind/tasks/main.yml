@@ -1,11 +1,6 @@
 ---
 # tasks for kind
 
-- name: make scripts directory
-  file:
-    path: "{{remote_path}}/scripts"
-    state: directory
-
 - name: send kind installation script to remote machine
   template:
     src: "install-kind.sh.j2"
