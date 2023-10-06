@@ -4,14 +4,14 @@
 - name: Create a tar.gz archive for the build files on the local machine
   archive:
     path: "{{local_path}}/docker"
-    dest: "{{local_path}}/docker.tar.gz"
+    dest: "{{local_path}}/docker/docker.tar.gz"
     format: gz
     force_archive:
   delegate_to: localhost
 
 - name: unarchived files on remote machine
   unarchive:
-    src: "{{local_path}}/docker.tar.gz"
+    src: "{{local_path}}/docker/docker.tar.gz"
     dest: "{{remote_path}}"
     remote_src: yes
 
