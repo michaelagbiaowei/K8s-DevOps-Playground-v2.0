@@ -26,7 +26,7 @@
     # - docker
     # - node
     # - go
-    # - kind
+    - kind
     # - helm
     # - kubectl
     # - terraform
