@@ -1,8 +1,8 @@
 ---
 # tasks for kubectl
 
-- name: send installtion script to remote machine
-  file:
+- name: send kubectl installtion script to remote machine
+  template:
     src: "install-kubectl.sh.j2"
     dest: "{{remote_path}}/scripts/install-kubectl.sh"
     mode: "0777"
