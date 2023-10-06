@@ -25,9 +25,9 @@
   roles:
     # - docker
     # - node
-    - go
-    - kind
-    - helm
+    # - go
+    # - kind
+    # - helm
     - kubectl
     - terraform
       #- build

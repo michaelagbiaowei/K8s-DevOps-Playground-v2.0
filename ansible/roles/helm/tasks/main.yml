@@ -11,7 +11,7 @@
   command: "sh {{remote_path}}/scripts/install-helm.sh"
 
 - name: verify helm intallation
-  command: helm --version
+  command: helm version
   register: helm_version
   changed_when: false
 
