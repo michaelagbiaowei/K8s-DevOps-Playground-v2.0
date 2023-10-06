@@ -3,18 +3,20 @@
 
 - name: Create a tar.gz archive for the build files on the local machine
   archive:
-    path: "{{local_path}}/docker"
-    dest: "{{local_path}}/docker/docker.tar.gz"
-    format: gz
-    force_archive:
+    path: 
+      - "{{local_path}}/docker/.dockerignore"
+      - "{{local_path}}/docker/app.js"
+      - "{{local_path}}/docker/Dockerfile"
+    dest: "{{local_path}}/docker/docker.tar.bz2"
+    format: bz2
   delegate_to: localhost
 
 - name: unarchived files on remote machine
   unarchive:
-    src: "{{local_path}}/docker/docker.tar.gz"
+    src: "{{local_path}}/docker/docker.tar.bz2"
     dest: "{{remote_path}}"
-    remote_src: yes
-
+    
+    
 - name: Run npm install command
   command: npm install express
   args:
