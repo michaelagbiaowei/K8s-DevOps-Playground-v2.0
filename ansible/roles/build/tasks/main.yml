@@ -9,11 +9,6 @@
     force_archive:
   delegate_to: localhost
 
-- name: Ensure the destination directory exists on the remote machine
-  file:
-    path: "{{remote_path}}"
-    state: directory
-
 - name: unarchived files on remote machine
   unarchive:
     src: "{{local_path}}/docker.tar.gz"
