@@ -10,7 +10,7 @@
   tags:
     - install_packages
 
-- name:  "Build - Starting Docker Service"
+- name: "Build - Starting Docker Service"
   systemd:
     name: docker
     state: started
@@ -24,3 +24,12 @@
     state: present
   tags:
     - install_docker_client
+
+- name: verify docker installation
+  command: docker -v
+  register: docker_version
+  changed_when: false
+
+- name: print docker version
+  debug:
+  msg: "Docker version {{docker_version.stdout}}"

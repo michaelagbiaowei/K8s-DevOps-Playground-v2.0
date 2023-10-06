@@ -1,16 +1,21 @@
 ---
 # tasks for node
 
-- name: Install Node.js
-  yum:
+- name: Install nodejs and npm
+  apt:
     name: nodejs
     state: present
 
-# - name: print node version
-#   debug:
-#     msg: "The current version of node is {{node_version}}"
+- name: verify nodejs installation
+  command: node --version
+  register: node_version
+  changed_when: false
 
-- name: Install the Express.js npm package
-  npm:
-    name: express
-    state: present
+- name: verify npm installation
+  command: npm --version
+  register: npm_version
+  changed_when: false
+
+- name: print nodejs and npm versions
+  debug:
+    msg: "Node.js version: {{node_version.stdout}} | npm version: {{npm_version.stdout}}"

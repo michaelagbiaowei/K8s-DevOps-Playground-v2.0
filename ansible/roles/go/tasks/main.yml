@@ -5,6 +5,11 @@
   golang:
     state: present
 
+- name: verify go installation
+  command: go version
+  register: go_version
+  changed_when: false
+
 - name: print go version
   debug:
-    msg: "The current version of go is {{go_version}}"
+    msg: "Go version {{go_version}.stdout}}"
