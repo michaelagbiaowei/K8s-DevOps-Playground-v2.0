@@ -30,6 +30,6 @@
     # - helm
     # - kubectl
     # - terraform
-    - build
-    #- deploy
+    # - build
+    - deploy
     #- monitoring

@@ -137,3 +137,4 @@ terraform.tfstate.backup
 *.pem
 host
 vault_pass.txt
+docker.tar.bz2

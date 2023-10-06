@@ -1,48 +1,19 @@
 ---
 # tasks for deploy
 
-- name: Create a tar.gz archive for the manifest files on the local machine
+- name: Create a tar.bz2 archive for the deployment files on the local machine
   archive:
-    path: "{{local_path}}/k8s"
-    dest: "{{local_path}}/k8s.tar.gz"
-    format: gz
-    force_archive:
+    path: 
+      - "{{local_path}}/k8s"
+      - "{{local_path}}/terraform"
+    dest: "{{local_path}}/deployment.tar.bz2"
+    format: bz2
   delegate_to: localhost
-
-- name: Ensure the destination directory exists on the remote machine
-  file:
-    path: "{{remote_path}}/k8s"
-    state: directory
 
 - name: unarchived files on remote machine
   unarchive:
-    src: "{{local_path}}/k8s.tar.gz"
-    dest: "{{remote_path}}/k8s"
-    remote_src: yes
-
-- name: Create a tar.gz archive for the terraform files on the local machine
-  archive:
-    path: "{{local_path}}/terraform/app"
-    dest: "{{local_path}}/terraform/app.tar.gz"
-    format: gz
-    force_archive:
-  delegate_to: localhost
-
-- name: Ensure the destination directory exists on the remote machine -- tarraform
-  file:
-    path: "{{remote_path}}/terraform"
-    state: directory
-
-- name: Ensure the destination directory exists on the remote machine -- tarraform/app
-  file:
-    path: "{{remote_path}}/terraform/app"
-    state: directory
-
-- name: unarchived files on remote machine
-  unarchive:
-    src: "{{local_path}}/terraform/app.tar.gz"
-    dest: "{{remote_path}}/terraform/app"
-    remote_src: yes
+    src: "{{local_path}}/deployment.tar.bz2"
+    dest: "{{remote_path}}"
 
 - name: Initialize Terraform
   command: terraform init

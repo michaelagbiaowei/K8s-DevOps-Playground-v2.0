@@ -21,4 +21,4 @@ spec: # Specifies the desired state of the Deployment.
     spec: # Defines the specification for the Pods to be created.
       containers: # List of containers in the Pod.
         - name: app-deployment # Name of the container.
-          image: maiempire/kind-app-2:latest # Docker image to use for this container.
+          image: maiempire/kind-app-v2:latest # Docker image to use for this container.
