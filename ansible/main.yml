@@ -28,7 +28,7 @@
     # - go
     # - kind
     # - helm
-    - kubectl
+    # - kubectl
     - terraform
       #- build
       #- deploy

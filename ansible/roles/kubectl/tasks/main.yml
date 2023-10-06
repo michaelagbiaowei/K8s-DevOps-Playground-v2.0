@@ -11,7 +11,7 @@
   command: "sh {{remote_path}}/scripts/install-kubectl.sh"
 
 - name: verify kubectl installation
-  command: kubectl -v
+  command: kubectl version
   register: kubectl_version
   changed_when: false
 
