@@ -5,15 +5,17 @@
   file:
     path: "{{remote_path}}/scripts"
     state: directory
+    mode: "0755"
 
-- name: send kind installation script to remote machine
+- name: send go installation script to remote machine
   template:
     src: "install-go.sh.j2"
     dest: "{{remote_path}}/scripts/install-go.sh"
     mode: "0777"
+    ignore_errors: yes
 
 - name: execute go installation script
-  command: "sh {{remote_path}}/scripts/install-go.sh"
+  script: "sh {{remote_path}}/scripts/install-go.sh"
 
 - name: verify go installation
   command: go version
