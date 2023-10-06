@@ -1,15 +1,25 @@
 ---
 # tasks for kind
 
-- name: send kind installation script to server
+- name: make scripts directory
+  file:
+    path: "{{remote_path}}/scripts"
+    state: directory
+
+- name: send kind installation script to remote machine
   template:
     src: "install-kind.sh.j2"
-    dest: "{{remote_path}}/install-kind.sh"
+    dest: "{{remote_path}}/scripts/install-kind.sh"
     mode: "0777"
 
 - name: execute kind installation script
-  command: "sh {{remote_path}}/install-kind.sh"
+  command: "sh {{remote_path}}/scripts/install-kind.sh"
+
+- name: verify kind installation
+  command: kind version
+  register: kind_version
+  changed_when: false
   
 - name: print kind version
   debug:
-    msg: "The current version of kind is {{kind_version}}"
+    msg: "Kind version {{kind_version.stdout}}"

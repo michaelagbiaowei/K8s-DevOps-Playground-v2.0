@@ -26,9 +26,10 @@
     # - docker
     - node
     - go
-      # - kind
-      # - helm
-      #- terraform
+    - kind
+    - helm
+    - kubectl
+    - terraform
       #- build
       #- deploy
       #- monitoring

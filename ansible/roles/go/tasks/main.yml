@@ -12,4 +12,4 @@
 
 - name: print go version
   debug:
-    msg: "Go version {{go_version}.stdout}}"
+    msg: "Go version {{go_version.stdout}}"

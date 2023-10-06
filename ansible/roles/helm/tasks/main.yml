@@ -4,12 +4,18 @@
 - name: send helm installation script to server
   template:
     src: "install-helm.sh.j2"
-    dest: "{{remote_path}}/install-helm.sh"
+    dest: "{{remote_path}}/scripts/install-helm.sh"
     mode: "0777"
 
 - name: execute helm installation script
-  command: "sh {{remote_path}}/install-helm.sh"
+  command: "sh {{remote_path}}/scripts/install-helm.sh"
+
+- name: verify helm intallation
+  command: helm --version
+  register: helm_version
+  changed_when: false
+
   
 - name: print helm version
   debug:
-    msg: "The current version of helm is {{helm_version}}"
+    msg: "Helm version {{helm_version.stdout}}"

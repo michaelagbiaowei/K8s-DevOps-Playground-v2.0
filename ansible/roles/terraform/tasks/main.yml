@@ -4,12 +4,17 @@
 - name: send terraform installation script to server
   template:
     src: "install-terraform.sh.j2"
-    dest: "{{remote_path}}/install-terraform.sh"
+    dest: "{{remote_path}}/scripts/install-terraform.sh"
     mode: "0777"
 
 - name: execute terraform installation script
-  command: "sh {{remote_path}}/install-terraform.sh"
+  command: "sh {{remote_path}}/scripts/install-terraform.sh"
+
+- name: verify terraform installation
+  command: terraform -v
+  register: terraform_version
+  changed_when: false
 
 - name: print terraform version
   debug:
-    msg: "The current version of terraform is {{terraform_version}}"
+    msg: "Terraform version {{terraform_version.stdout}}"

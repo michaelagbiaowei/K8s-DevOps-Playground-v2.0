@@ -1,0 +1,20 @@
+---
+# tasks for kubectl
+
+- name: send installtion script to remote machine
+  file:
+    src: "install_kubectl.sh.j2"
+    dest: "{{remote_path}}/scripts/install_kubectl.sh"
+    mode: "0777"
+
+- name: execute installation script
+  command: "sh {{remote_path}}/scripts/install_kubectl.sh"
+
+- name: verify kubectl installation
+  command: kubectl -v
+  register: kubectl_version
+  changed_when: false
+
+- name: print kubectl version
+  debug:
+    msg: "Kubectl version {{kubectl_version.stdout}}"
