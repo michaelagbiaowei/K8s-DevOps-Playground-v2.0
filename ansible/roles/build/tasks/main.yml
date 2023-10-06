@@ -31,8 +31,8 @@
 - name: "Build - Docker image from Dockerfile"
   docker_image:
     build:
-      path: "{{remote_path}}/Dockerfile"
-    name: "{{docker_image_name}}"
+      path: "{{remote_path}}"
+    name: "{{docker_username}}/{{docker_image_name}}"
     tag: "{{item}}"
     push: yes
     source: build

@@ -12,7 +12,7 @@ WORKDIR ${APP_HOME}
 
 # Copy the package.json and package-lock.json files from the current directory
 # on the host machine to the working directory of the Docker image.
-COPY ["package*.json", "${APP_HOME}"]
+COPY ["package*.json", "${APP_HOME}/"]
 
 # Install the dependencies for the Node.js application inside the Docker container. 
 # This command is typically used in the build stage of a Docker image to ensure that all the required 
@@ -22,7 +22,7 @@ COPY ["package*.json", "${APP_HOME}"]
 RUN npm install
 
 # Copy the rest of the application code to the working directory inside the Docker container excluding the files listed in the .dockerignore file
-COPY [".", "${APP_HOME}"]
+COPY [".", "${APP_HOME}/"]
 
 # Create a new build stage named base
 FROM build AS base
