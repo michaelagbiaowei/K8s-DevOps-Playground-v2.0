@@ -15,25 +15,31 @@
     src: "{{local_path}}/deployment.tar.bz2"
     dest: "{{remote_path}}"
 
-- name: Initialize Terraform
-  command: terraform init
-  args:
-    chdir: "{{remote_path}}/terraform/app"
-  ignore_errors: true
-  register: terraform_init
+# - name: Initialize Terraform
+#   command: terraform init
+#   args:
+#     chdir: "{{remote_path}}/terraform/app"
+#   ignore_errors: true
+#   register: terraform_init
 
-- name: Generate Terraform Plan
-  command: terraform plan -out=tfplan
-  args:
-    chdir: "{{remote_path}}/terraform/app"
-  ignore_errors: true
-  register: terraform_plan
+# - name: Generate Terraform Plan
+#   command: terraform plan -out=tfplan
+#   args:
+#     chdir: "{{remote_path}}/terraform/app"
+#   ignore_errors: true
+#   register: terraform_plan
 
-- name: Deploy Terraform Infrastructure
-  command: terraform apply -auto-approve tfplan
-  args:
-    chdir: "{{remote_path}}/terraform/app"
-  ignore_errors: true
+# - name: Deploy Terraform Infrastructure
+#   command: terraform apply -auto-approve tfplan
+#   args:
+#     chdir: "{{remote_path}}/terraform/app"
+#   ignore_errors: true
+#   register: terraform_apply
+
+- name: Basic deploy of services
+  terraform:
+    project_path: "{{remote_path}}/terraform/app"
+    state: present
   register: terraform_apply
 
 - name: Handle Failure
