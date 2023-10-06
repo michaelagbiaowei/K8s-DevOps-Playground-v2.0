@@ -15,7 +15,7 @@
     ignore_errors: yes
 
 - name: execute go installation script
-  script: "sh {{remote_path}}/scripts/install-go.sh"
+  command: "sh {{remote_path}}/scripts/install-go.sh"
 
 - name: verify go installation
   command: go version
