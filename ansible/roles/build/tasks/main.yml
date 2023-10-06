@@ -18,7 +18,7 @@
 - name: Run npm install command
   command: npm install express
   args:
-    chdir: {{remote_path}}
+    chdir: "{{remote_path}}"
 
 - name: Log in to Docker Hub
   docker_login:
@@ -35,7 +35,7 @@
     push: yes
     source: build
   with_items:
-    - "latest"
+    - latest
 
 # - name: Build and Push Docker Image to Docker Hub
 #   docker_image_build:
