@@ -29,7 +29,7 @@
     # - kind
     # - helm
     # - kubectl
-    - terraform
-      #- build
-      #- deploy
-      #- monitoring
+    # - terraform
+    - build
+    #- deploy
+    #- monitoring
