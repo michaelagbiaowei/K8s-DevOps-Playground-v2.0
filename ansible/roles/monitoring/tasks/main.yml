@@ -15,9 +15,35 @@
   ignore_errors: true
   register: terraform_plan
 
-- name: Deploy Terraform Infrastructure
+- name: Deploy Terraform monitoring manifest files
   command: terraform apply -auto-approve tfplan
   args:
     chdir: "{{remote_path}}/terraform/monitoring"
   ignore_errors: true
   register: terraform_apply
+# - name: Handle Failure
+#   block:
+#     - name: Fail if Terraform Deployment Fails
+#       fail:
+#         msg: "Terraform deployment failed. Check logs for details."
+#       when: terraform_apply.rc != 0
+
+#     - name: Destroy Terraform Infrastructure on Failure
+#       command: terraform destroy -auto-approve
+#       args:
+#         chdir: "{{remote_path}}/terraform/monitoring"
+#       ignore_errors: true
+#       when: terraform_apply.rc != 0
+
+#   rescue:
+#     - name: Cleanup on Success or Failure
+#       command: terraform destroy -auto-approve
+#       args:
+#         chdir: "{{remote_path}}/terraform/monitoring"
+#       ignore_errors: true
+
+#   always:
+#     - name: Remove Terraform State Lock Files
+#       file:
+#         path: "{{remote_path}}/terraform/monitoring/.terraform.lock.info"
+#         state: absent
