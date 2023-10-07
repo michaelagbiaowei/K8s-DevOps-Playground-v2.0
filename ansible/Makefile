@@ -1,8 +1,9 @@
-.PHONY: install_ansible exe
+.PHONY: install deploy
 
-install_ansible:
+install:
 	sudo apt update
 	sudo apt install ansible -y
-exe:
-	ansible-playbook -i host main.yml --private-key=pem.pem --vault-password-file vault_pass.txt
+
+deploy:
+	ansible-playbook -i host main.yml --private-key=/path/to/private-key.pem --vault-password-file /path/to/vault-password.txt
 	
