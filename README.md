@@ -10,6 +10,6 @@ The result is a highly scalable, containerized web application that runs on Kube
 
 This project involves the deploying of a Node.js Express web application using a Docker, KIND, and Terraform. It utilizes Ansible for automation and integrates Prometheus, Grafana, and Alertmanager for robust monitoring and alerting within the Kubernetes environment, ensuring the application's reliability and performance.
 
-**Run `make install `to install the ansible on host machine**
+**Run `make install `to install ansible on host machine**
 
-**Run `make deploy` from the ansible directory to deploy Application to remote machine(s)**
+**Run `make deploy` from ansible directory to deploy Application to remote machine(s)**
