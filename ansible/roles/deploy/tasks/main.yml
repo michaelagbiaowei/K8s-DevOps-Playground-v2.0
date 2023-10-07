@@ -3,7 +3,7 @@
 
 - name: Create a tar.bz2 archive for the deployment files on the local machine
   archive:
-    path: 
+    path:
       - "{{local_path}}/k8s"
       - "{{local_path}}/terraform"
     dest: "{{local_path}}/deployment.tar.bz2"
@@ -40,6 +40,7 @@
   terraform:
     project_path: "{{remote_path}}/terraform/app"
     state: present
+    force_init: yes
   ignore_errors: true
   register: terraform_apply
 
@@ -63,7 +64,7 @@
       args:
         chdir: "{{remote_path}}/terraform/app"
       ignore_errors: true
-      
+
   always:
     - name: Remove Terraform State Lock Files
       file:

@@ -1,14 +1,14 @@
 ---
 # tasks for kubectl
 
-# - name: send kubectl installtion script to remote machine
-#   template:
-#     src: "install-kubectl.sh.j2"
-#     dest: "{{remote_path}}/scripts/install-kubectl.sh"
-#     mode: "0777"
+- name: send kubectl installtion script to remote machine
+  template:
+    src: "install-kubectl.sh.j2"
+    dest: "{{remote_path}}/scripts/install-kubectl.sh"
+    mode: "0777"
 
-# - name: execute installation script
-#   command: "sh {{remote_path}}/scripts/install-kubectl.sh"
+- name: execute installation script
+  command: "sh {{remote_path}}/scripts/install-kubectl.sh"
 
 - name: verify kubectl installation
   command: kubectl version

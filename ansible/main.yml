@@ -28,8 +28,8 @@
     # - go
     # - kind
     # - helm
-    - kubectl
-    - terraform
-    - build
+    # - kubectl
+    # - terraform
+    # - build
     - deploy
     #- monitoring
