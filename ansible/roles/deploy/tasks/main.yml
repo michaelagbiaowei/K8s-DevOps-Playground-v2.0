@@ -1,19 +1,19 @@
 ---
 # tasks for deploy
 
-# - name: Create a tar.bz2 archive for the deployment files on the local machine
-#   archive:
-#     path:
-#       - "{{local_path}}/k8s"
-#       - "{{local_path}}/terraform"
-#     dest: "{{local_path}}/deployment.tar.bz2"
-#     format: bz2
-#   delegate_to: localhost
+- name: Create a tar.bz2 archive for the deployment files on the local machine
+  archive:
+    path:
+      - "{{local_path}}/k8s"
+      - "{{local_path}}/terraform"
+    dest: "{{local_path}}/deployment.tar.bz2"
+    format: bz2
+  delegate_to: localhost
 
-# - name: unarchived files on remote machine
-#   unarchive:
-#     src: "{{local_path}}/deployment.tar.bz2"
-#     dest: "{{remote_path}}"
+- name: unarchived files on remote machine
+  unarchive:
+    src: "{{local_path}}/deployment.tar.bz2"
+    dest: "{{remote_path}}"
 
 - name: Initialize Terraform
   command: terraform init

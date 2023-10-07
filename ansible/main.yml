@@ -31,5 +31,5 @@
     # - kubectl
     # - terraform
     # - build
-    - deploy
-    #- monitoring
+    # - deploy
+    - monitoring
