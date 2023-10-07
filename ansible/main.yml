@@ -23,13 +23,13 @@
         cache_valid_time: 300
 
   roles:
-    # - docker
-    # - node
-    # - go
-    # - kind
-    # - helm
-    # - kubectl
-    # - terraform
-    # - build
-    # - deploy
+    - docker
+    - node
+    - go
+    - kind
+    - helm
+    - kubectl
+    - terraform
+    - build
+    - deploy
     - monitoring
