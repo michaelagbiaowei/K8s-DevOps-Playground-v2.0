@@ -1,7 +1,7 @@
 ---
 # task for docker
 
-- name: "Build - Package Installation"
+- name: package installation
   apt:
     name:
       - docker.io
@@ -10,7 +10,7 @@
   tags:
     - install_packages
 
-- name: "Build - Starting Docker Service"
+- name: starting docker service
   systemd:
     name: docker
     state: started
@@ -18,7 +18,7 @@
   tags:
     - start_docker_service
 
-- name: "Build - Installing Docker Client For Python"
+- name: installing docker client for python
   pip:
     name: docker
     state: present

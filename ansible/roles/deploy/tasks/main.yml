@@ -1,7 +1,7 @@
 ---
 # tasks for deploy
 
-- name: Create a tar.bz2 archive for the deployment files on the local machine
+- name: create a tar.bz2 archive for the deployment files on the local machine
   archive:
     path:
       - "{{local_path}}/k8s"
@@ -15,50 +15,23 @@
     src: "{{local_path}}/deployment.tar.bz2"
     dest: "{{remote_path}}"
 
-- name: Initialize Terraform
+- name: initialize terraform
   command: terraform init
   args:
     chdir: "{{remote_path}}/terraform/app"
   ignore_errors: true
   register: terraform_init
 
-- name: Generate Terraform Plan
+- name: generate terraform Plan
   command: terraform plan -out=tfplan
   args:
     chdir: "{{remote_path}}/terraform/app"
   ignore_errors: true
   register: terraform_plan
 
-- name: Deploy Terraform app manifest files
+- name: deploy terraform app manifest files
   command: terraform apply -auto-approve tfplan
   args:
     chdir: "{{remote_path}}/terraform/app"
   ignore_errors: true
   register: terraform_apply
-
-# - name: Handle Failure
-#   block:
-#     - name: Fail if Terraform Deployment Fails
-#       fail:
-#         msg: "Terraform deployment failed. Check logs for details."
-#       when: terraform_apply.rc != 0
-
-#     - name: Destroy Terraform Infrastructure on Failure
-#       command: terraform destroy -auto-approve
-#       args:
-#         chdir: "{{remote_path}}/terraform/app"
-#       ignore_errors: true
-#       when: terraform_apply.rc != 0
-
-#   rescue:
-#     - name: Cleanup on Success or Failure
-#       command: terraform destroy -auto-approve
-#       args:
-#         chdir: "{{remote_path}}/terraform/app"
-#       ignore_errors: true
-
-#   always:
-#     - name: Remove Terraform State Lock Files
-#       file:
-#         path: "{{remote_path}}/terraform/app/.terraform.lock.info"
-#         state: absent

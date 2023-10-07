@@ -1,9 +1,9 @@
 ---
 # tasks for build
 
-- name: Create a tar.bz2 archive for the build files on the local machine
+- name: create a tar.bz2 archive for the build files on the local machine
   archive:
-    path: 
+    path:
       - "{{local_path}}/docker/.dockerignore"
       - "{{local_path}}/docker/app.js"
       - "{{local_path}}/docker/Dockerfile"
@@ -15,19 +15,18 @@
   unarchive:
     src: "{{local_path}}/docker/docker.tar.bz2"
     dest: "{{remote_path}}"
-    
-    
-- name: Run npm install command
+
+- name: install app dependencies
   command: npm install express
   args:
     chdir: "{{remote_path}}"
 
-- name: Log in to Docker Hub
+- name: login to docker hub
   docker_login:
     username: "{{ docker_username }}"
     password: "{{ docker_password }}"
 
-- name: "Build - Docker image from Dockerfile"
+- name: build docker image from Dockerfile
   docker_image:
     build:
       path: "{{remote_path}}"
@@ -38,7 +37,13 @@
   with_items:
     - latest
 
-- name: Remove image
+- name: remove built image
+  docker_image:
+    state: absent
+    name: "{{docker_image_name}}"
+    tag: latest
+
+- name: remove tagged image
   docker_image:
     state: absent
     name: "{{docker_username}}/{{docker_image_name}}"

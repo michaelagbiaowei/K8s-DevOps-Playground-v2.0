@@ -21,29 +21,24 @@
     chdir: "{{remote_path}}/terraform/monitoring"
   ignore_errors: true
   register: terraform_apply
-# - name: Handle Failure
-#   block:
-#     - name: Fail if Terraform Deployment Fails
-#       fail:
-#         msg: "Terraform deployment failed. Check logs for details."
-#       when: terraform_apply.rc != 0
 
-#     - name: Destroy Terraform Infrastructure on Failure
-#       command: terraform destroy -auto-approve
-#       args:
-#         chdir: "{{remote_path}}/terraform/monitoring"
-#       ignore_errors: true
-#       when: terraform_apply.rc != 0
+- name: handle failure
+  block:
+    - name: fail if terraform deployment fails
+      fail:
+        msg: "Terraform deployment failed. Check logs for details."
+      when: terraform_apply.rc != 0
 
-#   rescue:
-#     - name: Cleanup on Success or Failure
-#       command: terraform destroy -auto-approve
-#       args:
-#         chdir: "{{remote_path}}/terraform/monitoring"
-#       ignore_errors: true
+    - name: destroy terraform infrastructure on failure
+      command: terraform destroy -auto-approve
+      args:
+        chdir: "{{remote_path}}/terraform/app"
+      ignore_errors: true
+      when: terraform_apply.rc != 0
 
-#   always:
-#     - name: Remove Terraform State Lock Files
-#       file:
-#         path: "{{remote_path}}/terraform/monitoring/.terraform.lock.info"
-#         state: absent
+  always:
+    - name: remove terraform state lock files
+      file:
+        path: "{{remote_path}}/terraform/app/.terraform.lock.info"
+        state: absent
+

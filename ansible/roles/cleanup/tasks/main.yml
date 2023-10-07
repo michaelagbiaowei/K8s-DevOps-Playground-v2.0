@@ -1,0 +1,29 @@
+---
+#tasks for cleanup
+
+- name: cleanup app infrastructure on Success
+  command: terraform destroy -auto-approve
+  args:
+    chdir: "{{remote_path}}/terraform/app"
+  ignore_errors: true
+
+- name: cleanup monitoring infrastructure on Success
+  command: terraform destroy -auto-approve
+  args:
+    chdir: "{{remote_path}}/terraform/monitoring"
+  ignore_errors: true
+
+- name: remove terraform State Lock Files
+  file:
+    path: 
+    - "{{remote_path}}/terraform/app/.terraform"
+    - "{{remote_path}}/terraform/app/.tfstate"
+    - "{{remote_path}}/terraform/app/.tfstate.backup"
+    - "{{remote_path}}/terraform/monitoring/.terraform"
+    - "{{remote_path}}/terraform/monitoring/.tfstate"
+    - "{{remote_path}}/terraform/monitoring/.tfstate.backup"
+    state: absent
+
+- name: print success mesage
+  debug:
+    msg: echo "Cleanup was successful"
