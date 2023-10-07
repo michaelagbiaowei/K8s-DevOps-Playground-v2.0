@@ -15,58 +15,58 @@
 #     src: "{{local_path}}/deployment.tar.bz2"
 #     dest: "{{remote_path}}"
 
-# - name: Initialize Terraform
-#   command: terraform init
-#   args:
-#     chdir: "{{remote_path}}/terraform/app"
-#   ignore_errors: true
-#   register: terraform_init
+- name: Initialize Terraform
+  command: terraform init
+  args:
+    chdir: "{{remote_path}}/terraform/app"
+  ignore_errors: true
+  register: terraform_init
 
-# - name: Generate Terraform Plan
-#   command: terraform plan -out=tfplan
-#   args:
-#     chdir: "{{remote_path}}/terraform/app"
-#   ignore_errors: true
-#   register: terraform_plan
+- name: Generate Terraform Plan
+  command: terraform plan -out=tfplan
+  args:
+    chdir: "{{remote_path}}/terraform/app"
+  ignore_errors: true
+  register: terraform_plan
 
-# - name: Deploy Terraform Infrastructure
-#   command: terraform apply -auto-approve tfplan
-#   args:
-#     chdir: "{{remote_path}}/terraform/app"
-#   ignore_errors: true
-#   register: terraform_apply
-
-- name: Basic deploy of services
-  terraform:
-    project_path: "{{remote_path}}/terraform/app"
-    state: present
-    force_init: yes
+- name: Deploy Terraform Infrastructure
+  command: terraform apply -auto-approve tfplan
+  args:
+    chdir: "{{remote_path}}/terraform/app"
   ignore_errors: true
   register: terraform_apply
 
-- name: Handle Failure
-  block:
-    - name: Fail if Terraform Deployment Fails
-      fail:
-        msg: "Terraform deployment failed. Check logs for details."
-      when: terraform_apply.rc != 0
+# - name: Basic deploy of services
+#   terraform:
+#     project_path: "{{remote_path}}/terraform/app"
+#     state: present
+#     force_init: yes
+#   ignore_errors: true
+#   register: terraform_apply
 
-    - name: Destroy Terraform Infrastructure on Failure
-      command: terraform destroy -auto-approve
-      args:
-        chdir: "{{remote_path}}/terraform/app"
-      ignore_errors: true
-      when: terraform_apply.rc != 0
+# - name: Handle Failure
+#   block:
+#     - name: Fail if Terraform Deployment Fails
+#       fail:
+#         msg: "Terraform deployment failed. Check logs for details."
+#       when: terraform_apply.rc != 0
 
-  rescue:
-    - name: Cleanup on Success or Failure
-      command: terraform destroy -auto-approve
-      args:
-        chdir: "{{remote_path}}/terraform/app"
-      ignore_errors: true
+#     - name: Destroy Terraform Infrastructure on Failure
+#       command: terraform destroy -auto-approve
+#       args:
+#         chdir: "{{remote_path}}/terraform/app"
+#       ignore_errors: true
+#       when: terraform_apply.rc != 0
 
-  always:
-    - name: Remove Terraform State Lock Files
-      file:
-        path: "{{remote_path}}/terraform/app/.terraform.lock.info"
-        state: absent
+#   rescue:
+#     - name: Cleanup on Success or Failure
+#       command: terraform destroy -auto-approve
+#       args:
+#         chdir: "{{remote_path}}/terraform/app"
+#       ignore_errors: true
+
+#   always:
+#     - name: Remove Terraform State Lock Files
+#       file:
+#         path: "{{remote_path}}/terraform/app/.terraform.lock.info"
+#         state: absent
