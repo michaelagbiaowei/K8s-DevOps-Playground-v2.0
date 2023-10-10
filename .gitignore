@@ -136,4 +136,4 @@ get_helm.sh
 terraform.tfstate.backup
 *.pem
 vault_pass.txt
-docker.tar.bz2
+*.bz2
